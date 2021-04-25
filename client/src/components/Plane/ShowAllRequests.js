@@ -1,0 +1,112 @@
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import conf from "../../config/conf";
+
+import axios from 'axios';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    /*display: 'flex',
+    flexWrap: 'wrap',
+    '& > *': {
+      margin: theme.spacing(1),
+      min: theme.spacing(16),
+      height: theme.spacing(16),
+    },*/
+    padding: 15,
+  },
+  table: {
+    minWidth: 500,
+  },
+}));
+
+
+
+  
+const rows = [];
+
+function createData(name, status, id) {
+  return { name, status, id };
+}
+
+function GetAllRequests() {
+  rows.length = 0;
+
+  /*axios.get(`http://${conf.serverAPI}/api/get_request`)
+    .then((response) => {
+      alert(response);
+    })
+    .catch((error) => alert(`Не удалось загрузить список услуг по причине: "${error}"`));*/
+  //alert(conf.serverAPI);
+
+  rows.push(createData('Авиационные стремянки', "Выполнено", 159));
+  rows.push(createData('Насосы', "В рассмотрении", 237));
+  rows.push(createData('Трапы', "Отказано", 262));
+  rows.push(createData('Устройства воздушного запуска', "Выполнено", 305));
+}
+
+
+//------------------------------------------ Удалить в финале
+rows.push(createData('Авиационные стремянки', "Выполнено", 159));
+rows.push(createData('Насосы', "В рассмотрении", 237));
+rows.push(createData('Трапы', "Отказано", 262));
+rows.push(createData('Устройства воздушного запуска', "Выполнено", 305));
+//-----------------------------------------------------------
+
+export default function ShowAllRequests() {
+  const classes = useStyles();
+
+  
+  /*React.useEffect(() => {
+    GetAllRequests();
+  }, []);*/
+
+  return (
+    <Paper className={classes.root}>
+      <Button variant="contained" href="/plane">На главную</Button> &nbsp;
+      <Button variant="contained" onClick={GetAllRequests}>Обновить</Button>
+      <Typography variant="h5" component="h2" gutterBottom>
+        Список заявок:
+      </Typography>
+
+
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Название услуги</TableCell>
+            <TableCell>Статус</TableCell>
+            <TableCell align="right">Подробнее</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell>{row.status}</TableCell>
+              <TableCell align="right">    
+                  <Button variant="contained" color="primary" href={"/plane/showrequest/"+row.id}>Подробнее</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+
+      {/*<Button variant="contained" color="primary" onClick={
+          () => {
+              axios({method: 'get', url:'https://handlesystem.herokuapp.com/api/user/23/create_request', headers: {'Content-Type': 'application/json;charset=utf-8'}, data: { Category: "Ladder", Amount: 15}, });
+          }}>Костя</Button>*/}
+
+    </Paper>
+  );
+}

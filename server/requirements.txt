@@ -1,0 +1,5 @@
+flask
+flask-CORS
+psycopg2
+gunicorn
+
